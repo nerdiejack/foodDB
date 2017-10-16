@@ -19,12 +19,12 @@ matplotlib.use("TkAgg")
 LARGE_FONT = ("Verdana", 12)
 style.use("ggplot")
 
-f = Figure(figsize=(5, 5), dpi=100)
+f = Figure(figsize=(10, 6), dpi=100)
 a = f.add_subplot(111)
 
 
 def animate(i):
-    dataLink = "https://api.bitfinex.com/v1/trades/BTCUSD?limit_trades=100"
+    dataLink = "https://api.bitfinex.com/v1/trades/BTCUSD?limit_trades=1000"
     data = urllib.request.urlopen(dataLink)
     data = data.read().decode("utf-8")
     data = json.loads(data)
@@ -40,10 +40,11 @@ def animate(i):
     sellDates = (sells["datestamp"]).tolist()
 
     a.clear()
-    a.plot_date(buyDates, buys["price"])
-    a.plot_date(sellDates, sells["price"])
-
-
+    a.plot_date(buyDates, buys["price"], "#00A3E0", label="buys")
+    a.plot_date(sellDates, sells["price"], "#183A54", label="sells")
+    a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3, ncol=2, borderaxespad=0)
+    title = "BTC-e BTCUSD Prices\nLast Price: "+str(data["price"][99])
+    a.set_title(title)
 
 
 class SeaofBTCapp(tk.Tk):
@@ -111,5 +112,5 @@ class BTCe_Page(tk.Frame):
 
 
 app = SeaofBTCapp()
-ani = animation.FuncAnimation(f, animate, interval=2000)
+ani = animation.FuncAnimation(f, animate, interval=1000)
 app.mainloop()
