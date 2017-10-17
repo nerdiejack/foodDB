@@ -24,7 +24,7 @@ a = f.add_subplot(111)
 
 
 def animate(i):
-    dataLink = "https://api.bitfinex.com/v1/trades/BTCUSD?limit_trades=1000"
+    dataLink = "https://api.bitfinex.com/v1/trades/BTCUSD?limit_trades=2000"
     data = urllib.request.urlopen(dataLink)
     data = data.read().decode("utf-8")
     data = json.loads(data)
