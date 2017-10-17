@@ -14,13 +14,42 @@ import json
 import pandas as pd
 import numpy as np
 
+from matplotlib import pyplot as plt
+
 pd.options.mode.chained_assignment = None
 matplotlib.use("TkAgg")
 LARGE_FONT = ("Verdana", 12)
+NORM_FONT = ("Verdana", 10)
+SMALL_FONT = ("Verdana", 8)
 style.use("ggplot")
 
-f = Figure(figsize=(10, 6), dpi=100)
+f = Figure()
 a = f.add_subplot(111)
+
+exchange = "BTC-e"
+DatCounter = 9000
+programName = "btce"
+
+
+def changeExchange(toWhat,pn):
+
+    global exchange
+    global DatCounter
+    global programName
+
+    exchange = toWhat
+    programName = pn
+    DatCounter = 9000
+
+
+def popupmsg(msg):
+    popup = tk.Tk()
+    popup.wm_title("!")
+    label = ttk.Label(popup, text=msg, font=NORM_FONT)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = ttk.Button(popup, text="Okay", command=popup.destroy)
+    B1.pack()
+    popup.mainloop()
 
 
 def animate(i):
@@ -54,10 +83,33 @@ class SeaofBTCapp(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         # tk.Tk.iconbitmap(self, default="pics\Halloween.ico")
         tk.Tk.wm_title(self, "Sea of BTC Client")
+
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
+
+        menubar = tk.Menu(container)
+        filemenu = tk.Menu(menubar, tearoff=0)
+        filemenu.add_command(label="Save settings", command=lambda: popupmsg("Not supported just yet!"))
+        filemenu.add_separator()
+        filemenu.add_command(label="Exit", command=quit)
+        menubar.add_cascade(label="File", menu=filemenu)
+
+        exchangeChoice = tk.Menu(menubar, tearoff=1)
+        exchangeChoice.add_command(label="BTC-e",
+                                   command=lambda: changeExchange("BTC-e", "btce"))
+        exchangeChoice.add_command(label="Bitfinex",
+                                   command=lambda: changeExchange("Bitfinex", "bitfinex"))
+        exchangeChoice.add_command(label="Bitstamp",
+                                   command=lambda: changeExchange("Bitstamp", "bitstamp"))
+        exchangeChoice.add_command(label="Huobi",
+                                   command=lambda: changeExchange("Huobi", "huobi"))
+
+        menubar.add_cascade(label="Exchange", menu=exchangeChoice)
+
+        tk.Tk.config(self, menu=menubar)
+
         self.frames = {}
         for F in (StartPage, BTCe_Page):
             frame = F(container, self)
@@ -112,5 +164,6 @@ class BTCe_Page(tk.Frame):
 
 
 app = SeaofBTCapp()
+app.geometry("1280x720")
 ani = animation.FuncAnimation(f, animate, interval=4000)
 app.mainloop()
