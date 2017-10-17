@@ -30,6 +30,34 @@ exchange = "BTC-e"
 DatCounter = 9000
 programName = "btce"
 
+resampleSize = "15Min"
+DataPace = "1d"
+candleWith = "0.008"
+
+def changeTimeFrame(tf):
+    global DataPace
+    global DatCounter
+    if tf == "7d" and resampleSize == "1Min":
+        popupmsg("Too much data chosen, choose a smaller frame or higher OHLC interval")
+    else:
+        DataPace = tf
+        DatCounter = 9000
+
+
+def changeSampleSize(size, width):
+    global resampleSize
+    global DatCounter
+    global candleWith
+    if DataPace == "7d" and resampleSize == "1Min":
+        popupmsg("Too much data chosen, choose a smaller frame or higher OHLC interval")
+
+    elif DataPace == "tick":
+        popupmsg("You're currently viewing tick data, not OHLC.")
+    else:
+        resampleSize = size
+        DatCounter = 9000
+        candleWith = width
+
 
 def changeExchange(toWhat,pn):
 
@@ -191,6 +219,6 @@ class BTCe_Page(tk.Frame):
 
 
 app = SeaofBTCapp()
-app.geometry("1280x720")
+app.geometry("1368x768")
 ani = animation.FuncAnimation(f, animate, interval=4000)
 app.mainloop()
