@@ -43,7 +43,7 @@ def animate(i):
     a.plot_date(buyDates, buys["price"], "#00A3E0", label="buys")
     a.plot_date(sellDates, sells["price"], "#183A54", label="sells")
     a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3, ncol=2, borderaxespad=0)
-    title = "BTC-e BTCUSD Prices\nLast Price: "+str(data["price"][99])
+    title = "BTC-e BTCUSD Prices\nLast Price: "+str(data["price"][1999])+" "+str(data["type"][1999])
     a.set_title(title)
 
 
