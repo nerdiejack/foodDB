@@ -52,7 +52,7 @@ class SeaofBTCapp(tk.Tk):
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.iconbitmap(self, default="pics\Halloween.ico")
+        # tk.Tk.iconbitmap(self, default="pics\Halloween.ico")
         tk.Tk.wm_title(self, "Sea of BTC Client")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -112,5 +112,5 @@ class BTCe_Page(tk.Frame):
 
 
 app = SeaofBTCapp()
-ani = animation.FuncAnimation(f, animate, interval=1000)
+ani = animation.FuncAnimation(f, animate, interval=4000)
 app.mainloop()
