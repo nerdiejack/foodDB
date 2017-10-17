@@ -105,8 +105,35 @@ class SeaofBTCapp(tk.Tk):
                                    command=lambda: changeExchange("Bitstamp", "bitstamp"))
         exchangeChoice.add_command(label="Huobi",
                                    command=lambda: changeExchange("Huobi", "huobi"))
-
         menubar.add_cascade(label="Exchange", menu=exchangeChoice)
+
+        dataTF = tk.Menu(menubar, tearoff=1)
+        dataTF.add_command(label= "Tick",
+                           command=lambda: changeTimeFrame('tick'))
+        dataTF.add_command(label="1 Day",
+                           command=lambda: changeTimeFrame('1d'))
+        dataTF.add_command(label="3 Day",
+                           command=lambda: changeTimeFrame('3d'))
+        dataTF.add_command(label="1 Week",
+                           command=lambda: changeTimeFrame('7d'))
+        menubar.add_cascade(label="Data Time Frame", menu=dataTF)
+
+        OHLCI = tk.Menu(menubar, tearoff=1)
+        OHLCI.add_command(label="Tick",
+                          command=lambda: changeTimeFrame('tick'))
+        OHLCI.add_command(label="1 minute",
+                          command=lambda: changeSampleSize('1Min', 0.0005))
+        OHLCI.add_command(label="5 minute",
+                          command=lambda: changeSampleSize('5Min', 0.003))
+        OHLCI.add_command(label="15 minute",
+                          command=lambda: changeSampleSize('15Min', 0.008))
+        OHLCI.add_command(label="30 minute",
+                          command=lambda: changeSampleSize('30Min', 0.016))
+        OHLCI.add_command(label="1 Hour",
+                          command=lambda: changeSampleSize('1H', 0.032))
+        OHLCI.add_command(label="3 Hour",
+                          command=lambda: changeSampleSize('3H', 0.096))
+        menubar.add_cascade(label="OHLC Interval", menu=OHLCI)
 
         tk.Tk.config(self, menu=menubar)
 
