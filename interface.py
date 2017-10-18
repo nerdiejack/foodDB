@@ -33,6 +33,105 @@ programName = "btce"
 resampleSize = "15Min"
 DataPace = "1d"
 candleWith = "0.008"
+topIndicator = "none"
+bottomIndicator = "none"
+middleIndicator = "none"
+EMAs = []
+SMAs = []
+
+
+def addTopIndicator(what):
+    global topIndicator
+    global DatCounter
+
+    if DataPace == "tick":
+        popupmsg("Indicators in Tick Data not available.")
+
+    elif what == "none":
+        topIndicator = what
+        DatCounter = 9000
+
+    elif what == "rsi":
+        rsiQ = tk.Tk()
+        rsiQ.wm_title("Periods?")
+        label = ttk.Label(rsiQ, text="Choose how many periods you want each RSI calculation to consider.")
+        label.pack(side="top", fill="x", pady=10)
+
+        e = ttk.Entry(rsiQ)
+        e.insert(0, 14)
+        e.pack()
+        e.focus_set()
+
+        def callback():
+            global topIndicator
+            global DatCounter
+
+            periods = (e.get())
+            group = []
+            group.append("rsi")
+            group.append(periods)
+
+            topIndicator = group
+            DatCounter = 9000
+            print("Set top indicator to", group)
+            rsiQ.destroy()
+
+        b = ttk.Button(rsiQ, text="Submit", width=10, command=callback)
+        b.pack()
+        tk.mainloop()
+
+    elif what == "macd":
+        # global topIndicator
+        # global DatCounter
+        topIndicator = "macd"
+        DatCounter = 9000
+
+def addBottomIndicator(what):
+    global bottomIndicator
+    global DatCounter
+
+    if DataPace == "tick":
+        popupmsg("Indicators in Tick Data not available.")
+
+    elif what == "none":
+        bottomIndicator = what
+        DatCounter = 9000
+
+    elif what == "rsi":
+        rsiQ = tk.Tk()
+        rsiQ.wm_title("Periods?")
+        label = ttk.Label(rsiQ, text="Choose how many periods you want each RSI calculation to consider.")
+        label.pack(side="top", fill="x", pady=10)
+
+        e = ttk.Entry(rsiQ)
+        e.insert(0, 14)
+        e.pack()
+        e.focus_set()
+
+        def callback():
+            global bottomIndicator
+            global DatCounter
+
+            periods = (e.get())
+            group = []
+            group.append("rsi")
+            group.append(periods)
+
+            bottomIndicator = group
+            DatCounter = 9000
+            print("Set bottom indicator to", group)
+            rsiQ.destroy()
+
+        b = ttk.Button(rsiQ, text="Submit", width=10, command=callback)
+        b.pack()
+        tk.mainloop()
+
+    elif what == "macd":
+        # global topIndicator
+        # global DatCounter
+        bottomIndicator = "macd"
+        DatCounter = 9000
+
 
 def changeTimeFrame(tf):
     global DataPace
@@ -162,6 +261,33 @@ class SeaofBTCapp(tk.Tk):
         OHLCI.add_command(label="3 Hour",
                           command=lambda: changeSampleSize('3H', 0.096))
         menubar.add_cascade(label="OHLC Interval", menu=OHLCI)
+
+        topIndi = tk.Menu(menubar, tearoff=1)
+        topIndi.add_command(label="None",
+                            command=lambda: addTopIndicator('none'))
+        topIndi.add_command(label="RSI",
+                            command=lambda: addTopIndicator('rsi'))
+        topIndi.add_command(label="MACD",
+                            command=lambda: addTopIndicator('macd'))
+        menubar.add_cascade(label="Top Indicator", menu=topIndi)
+
+        mainI = tk.Menu(menubar, tearoff=1)
+        mainI.add_command(label="None",
+                          command=lambda: addMiddleIndicator('none'))
+        mainI.add_command(label="SMA",
+                          command=lambda: addMiddleIndicator('sma'))
+        mainI.add_command(label="ema",
+                          command=lambda: addMiddleIndicator('ema'))
+        menubar.add_cascade(label="Main/middle Indicator", menu=mainI)
+
+        bottomI = tk.Menu(menubar, tearoff=1)
+        bottomI.add_command(label="None",
+                            command=lambda: addBottomIndicator('none'))
+        bottomI.add_command(label="RSI",
+                            command=lambda: addBottomIndicator('rsi'))
+        bottomI.add_command(label="MACD",
+                            command=lambda: addBottomIndicator('macd'))
+        menubar.add_cascade(label="Bottom Indicator", menu=bottomI)
 
         tk.Tk.config(self, menu=menubar)
 
