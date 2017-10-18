@@ -100,7 +100,7 @@ def animate(i):
     a.plot_date(buyDates, buys["price"], "#00A3E0", label="buys")
     a.plot_date(sellDates, sells["price"], "#183A54", label="sells")
     a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3, ncol=2, borderaxespad=0)
-    title = "BTC-e BTCUSD Prices\nLast Price: "+str(data["price"][1999])+" "+str(data["type"][1999])
+    title = "USD Prices\nLast Price: "+str(data["price"][1999])+" "+str(data["type"][1999])
     a.set_title(title)
 
 
@@ -110,7 +110,7 @@ class SeaofBTCapp(tk.Tk):
 
         tk.Tk.__init__(self, *args, **kwargs)
         # tk.Tk.iconbitmap(self, default="pics\Halloween.ico")
-        tk.Tk.wm_title(self, "Sea of BTC Client")
+        tk.Tk.wm_title(self, "BTC Client")
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -125,8 +125,8 @@ class SeaofBTCapp(tk.Tk):
         menubar.add_cascade(label="File", menu=filemenu)
 
         exchangeChoice = tk.Menu(menubar, tearoff=1)
-        exchangeChoice.add_command(label="BTC-e",
-                                   command=lambda: changeExchange("BTC-e", "btce"))
+        # exchangeChoice.add_command(label="BTC-e",
+        #                           command=lambda: changeExchange("BTC-e", "btce"))
         exchangeChoice.add_command(label="Bitfinex",
                                    command=lambda: changeExchange("Bitfinex", "bitfinex"))
         exchangeChoice.add_command(label="Bitstamp",
@@ -136,7 +136,7 @@ class SeaofBTCapp(tk.Tk):
         menubar.add_cascade(label="Exchange", menu=exchangeChoice)
 
         dataTF = tk.Menu(menubar, tearoff=1)
-        dataTF.add_command(label= "Tick",
+        dataTF.add_command(label="Tick",
                            command=lambda: changeTimeFrame('tick'))
         dataTF.add_command(label="1 Day",
                            command=lambda: changeTimeFrame('1d'))
@@ -170,7 +170,7 @@ class SeaofBTCapp(tk.Tk):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-        self.show_frame(StartPage)
+        self.show_frame(BTCe_Page)
 
     def show_frame(self, cont):
         frame = self.frames[cont]
@@ -220,5 +220,5 @@ class BTCe_Page(tk.Frame):
 
 app = SeaofBTCapp()
 app.geometry("1368x768")
-ani = animation.FuncAnimation(f, animate, interval=4000)
+ani = animation.FuncAnimation(f, animate, interval=2000)
 app.mainloop()
